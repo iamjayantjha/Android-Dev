@@ -1,0 +1,351 @@
+/*
+
+ Intent camera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            startActivityForResult(camera, CAMERA_REQUEST);
+
+
+    /*@Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == CAMERA_REQUEST) {
+            if (resultCode == Activity.RESULT_OK) {
+                assert data != null;
+                Bitmap photo = (Bitmap) Objects.requireNonNull(data.getExtras()).get("data");
+                img.setImageBitmap(photo);
+            } else if (resultCode == RESULT_CANCELED) {
+                Toast.makeText(this, "Cancelled", Toast.LENGTH_SHORT).show();
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }*/
+    String[] countries = {"India", "USA", "China", "Japan", "Russia", "Sri Lanka", "England", "New Zealand", "Ireland", "West Indies"};
+    String[] currencies = {"INR", "USD", "CNY", "JPY", "RUB", "LKR", "GBP", "NZD", "EUR", "XCD"};
+    SearchView searchView;
+    ListView listView;
+    ArrayAdapter adapter;
+
+ List<Country> countryList;
+    RecyclerViewAdapter recyclerViewAdapter;
+    RecyclerView recyclerView;
+
+     private void getCountries() {
+            countryList.add(new Country("Nepal", "Nepalese Rupee"));
+            countryList.add(new Country("India", "Indian Rupee"));
+            countryList.add(new Country("China", "Chinese Yuan"));
+            countryList.add(new Country("USA", "US Dollar"));
+            countryList.add(new Country("UK", "British Pound"));
+            countryList.add(new Country("Australia", "Australian Dollar"));
+            countryList.add(new Country("Japan", "Japanese Yen"));
+            countryList.add(new Country("Canada", "Canadian Dollar"));
+            countryList.add(new Country("Germany", "Euro"));
+            countryList.add(new Country("France", "Euro"));
+            countryList.add(new Country("Spain", "Euro"));
+            countryList.add(new Country("Italy", "Euro"));
+            countryList.add(new Country("Brazil", "Brazilian Real"));
+            countryList.add(new Country("Argentina", "Argentine Peso"));
+            countryList.add(new Country("Mexico", "Mexican Peso"));
+            countryList.add(new Country("Russia", "Russian Ruble"));
+            countryList.add(new Country("South Africa", "South African Rand"));
+            recyclerViewAdapter = new RecyclerViewAdapter(countryList);
+            recyclerView.setAdapter(recyclerViewAdapter);
+        }
+
+setContentView(R.layout.activity_main);
+        countryList = new ArrayList<>();
+        recyclerView = findViewById(R.id.recyclerView);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        getCountries();
+searchView = findViewById(R.id.searchView);
+        listView = findViewById(R.id.listView);
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, countries);
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener((parent, view, position, id) -> Toast.makeText(MainActivity.this, countries[position], Toast.LENGTH_SHORT).show());
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                String[] filteredArr;
+                for (String val : countries){
+                    if (val.contains(query)){
+                        filteredArr = new String[]{val};
+                        adapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_list_item_1, filteredArr);
+                        listView.setAdapter(adapter);
+                    }
+                }
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+
+        GridView gridView = findViewById(R.id.gridView);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, countries);
+        gridView.setAdapter(adapter);
+ ListView listView = findViewById(R.id.listView);
+        MyAdapter adapter = new MyAdapter(MainActivity.this, countries, currencies);
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener((parent, view, position, id) -> Toast.makeText(MainActivity.this, countries[position], Toast.LENGTH_SHORT).show());
+
+        WebView webView = findViewById(R.id.webView);
+        EditText editText = findViewById(R.id.url);
+        ImageView search = findViewById(R.id.search);
+        search.setOnClickListener(v -> {
+            Toast.makeText(this, "Loading...", Toast.LENGTH_SHORT).show();
+            String url = editText.getText().toString().trim();
+            webView.setWebViewClient(new WebViewClient());
+            webView.loadUrl("https://"+url);
+            webView.getSettings().setJavaScriptEnabled(true);
+        });
+
+VideoView videoView = findViewById(R.id.videoView);
+        videoView.setVideoPath("android.resource://" + getPackageName() + "/" + R.raw.video);
+        videoView.setMediaController(new MediaController(this));
+        videoView.start();
+
+
+        ImageView image = findViewById(R.id.imageView);
+        image.setOnClickListener(v -> {
+            image.setImageResource(R.drawable.sunset);
+        });
+Spinner spinner;
+spinner = findViewById(R.id.spinner);
+        String[] items = new String[]{"Xamarin", "Android", "iOS", "Flutter", "React Native"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
+        spinner.setAdapter(adapter);
+Chip addAll, nameChip, batchChip, timingChip;
+ List<Students> students = new ArrayList<>();
+        TextView user_data = findViewById(R.id.user_data);
+        Button submit = findViewById(R.id.submit);
+        TextInputEditText name = findViewById(R.id.name);
+        TextInputEditText batch = findViewById(R.id.batch);
+        TextInputEditText timing = findViewById(R.id.timing);
+        addAll = findViewById(R.id.addAll);
+        nameChip = findViewById(R.id.nameChip);
+        batchChip = findViewById(R.id.batchChip);
+        timingChip = findViewById(R.id.timingChip);
+        addAll.setOnClickListener(v -> {
+            addAll.setChecked(true);
+            name.setEnabled(true);
+            batch.setEnabled(true);
+            timing.setEnabled(true);
+        });
+        nameChip.setOnClickListener(v -> {
+            nameChip.setChecked(true);
+            name.setEnabled(true);
+            batch.setEnabled(false);
+            timing.setEnabled(false);
+        });
+
+        batchChip.setOnClickListener(v -> {
+            batchChip.setChecked(true);
+            name.setEnabled(false);
+            batch.setEnabled(true);
+            timing.setEnabled(false);
+        });
+
+        timingChip.setOnClickListener(v -> {
+            timingChip.setChecked(true);
+            name.setEnabled(false);
+            batch.setEnabled(false);
+            timing.setEnabled(true);
+        });
+
+        submit.setOnClickListener(v -> {
+            students.add(new Students(name.getText().toString(), batch.getText().toString(), timing.getText().toString()));
+            name.setText("");
+            batch.setText("");
+            timing.setText("");
+        });
+        Button view = findViewById(R.id.view_data);
+        view.setOnClickListener(v -> {
+            user_data.setText("");
+            for (Students student : students) {
+                user_data.append(student.getName() + " " + student.getBatch() + " " + student.getTiming() + "\n");
+            }
+        });
+* */
+
+
+<!-- <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>-->
+
+
+  <SearchView
+        android:id="@+id/searchView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:iconifiedByDefault="false"/>
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_below="@id/searchView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+    <GridView
+        android:id="@+id/gridView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:numColumns="1"/>
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+
+
+    <EditText
+        android:id="@+id/url"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@drawable/empty_bg"
+        android:hint="www.google.com"
+        android:layout_toStartOf="@id/search"/>
+
+    <ImageView
+        android:id="@+id/search"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/search"
+        android:layout_alignParentEnd="true"/>
+
+    <WebView
+        android:id="@+id/webView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/url"/>
+
+   <!-- <com.google.android.material.chip.ChipGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        app:singleSelection="true"
+        app:selectionRequired="true"
+        app:checkedChip="@+id/addAll"
+        android:layout_marginTop="10dp">
+
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/addAll"
+            android:layout_width="wrap_content"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_height="wrap_content"
+            android:text="Add All"/>
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/nameChip"
+            android:layout_width="wrap_content"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_height="wrap_content"
+            android:text="Name"/>
+
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/batchChip"
+            android:layout_width="wrap_content"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_height="wrap_content"
+            android:text="Batch"/>
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/timingChip"
+            android:layout_width="wrap_content"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_height="wrap_content"
+            android:text="Timing"/>
+
+    </com.google.android.material.chip.ChipGroup>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/nameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:hint="Name">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/batchLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:hint="Batch">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/batch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/timingLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:hint="Timing">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/timing"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+    <Button
+        android:id="@+id/submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_gravity="center"
+        android:text="Submit" />
+
+    <Button
+        android:id="@+id/view_data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="View"
+        android:layout_gravity="center"/>
+
+    <TextView
+        android:id="@+id/user_data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_gravity="center"/>
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner"
+        android:layout_gravity="center" />
+
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/sunrise"
+        android:layout_margin="10dp"/>
+
+        <VideoView
+                android:id="@+id/videoView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+
+    -->

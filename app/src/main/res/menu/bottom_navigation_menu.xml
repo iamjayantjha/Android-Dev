@@ -1,0 +1,27 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/home"
+        android:enabled="true"
+        android:icon="@drawable/home_selector"
+        android:title="@string/home"/>
+    <item
+        android:id="@+id/search"
+        android:enabled="true"
+        android:icon="@drawable/search"
+        android:title="@string/search"/>
+    <item
+        android:id="@+id/add"
+        android:enabled="true"
+        android:icon="@drawable/add"
+        android:title="@string/post"/>
+    <item
+        android:id="@+id/reels"
+        android:enabled="true"
+        android:icon="@drawable/reels_selector"
+        android:title="@string/reels"/>
+    <item
+        android:id="@+id/profile"
+        android:enabled="true"
+        android:icon="@drawable/profile_selector"
+        android:title="@string/profile"/>
+</menu>
