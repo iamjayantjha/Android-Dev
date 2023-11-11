@@ -59,11 +59,9 @@ public class SearchFragment extends Fragment {
                        if (!users.getId().equals(currentUser.getUid())){
                            usersList.add(users);
                        }
-                      // Log.d("USER DATA", Objects.requireNonNull(users).getId());
-                   //    Log.d("USER DATA", Objects.requireNonNull(dataSnapshot.getKey()));
                    }
                 }
-                searchAdapter = new SearchAdapter(usersList);
+                searchAdapter = new SearchAdapter(usersList, getContext());
                 users.setAdapter(searchAdapter);
             }
 

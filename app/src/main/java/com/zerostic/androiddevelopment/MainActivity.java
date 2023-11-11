@@ -1,6 +1,7 @@
 package com.zerostic.androiddevelopment;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -40,8 +41,15 @@ public class MainActivity extends AppCompatActivity {
                 selectedFragment = new SearchFragment();
             else if (item.getItemId() == R.id.reels)
                 selectedFragment = new ReelsFragment();
-            else if (item.getItemId() == R.id.profile)
+            else if (item.getItemId() == R.id.profile){
+                FirebaseAuth mAuth = FirebaseAuth.getInstance();
+                if (mAuth.getCurrentUser() != null) {
+                    SharedPreferences sharedPreferences = getSharedPreferences("PREFS", MODE_PRIVATE);
+                    sharedPreferences.edit().putString("profileId", mAuth.getCurrentUser().getUid()).apply();
+                }
                 selectedFragment = new ProfileFragment();
+            }
+
 
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
             return true;
@@ -58,6 +66,9 @@ public class MainActivity extends AppCompatActivity {
         if (currentUser == null){
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
             finish();
+        }else{
+            SharedPreferences sharedPreferences = getSharedPreferences("PREFS", MODE_PRIVATE);
+            sharedPreferences.edit().putString("profileId", currentUser.getUid()).apply();
         }
     }
 }
