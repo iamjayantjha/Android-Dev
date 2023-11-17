@@ -35,23 +35,26 @@ public class MainActivity extends AppCompatActivity {
         bottom_navigation.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.home){
                 selectedFragment = new HomeFragment();
-                Toast.makeText(MainActivity.this, "Home", Toast.LENGTH_SHORT).show();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
             }
-            else if (item.getItemId() == R.id.search)
+            else if (item.getItemId() == R.id.search) {
                 selectedFragment = new SearchFragment();
-            else if (item.getItemId() == R.id.reels)
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
+            }else if (item.getItemId() == R.id.reels) {
                 selectedFragment = new ReelsFragment();
-            else if (item.getItemId() == R.id.profile){
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
+            }else if (item.getItemId() == R.id.profile){
                 FirebaseAuth mAuth = FirebaseAuth.getInstance();
                 if (mAuth.getCurrentUser() != null) {
                     SharedPreferences sharedPreferences = getSharedPreferences("PREFS", MODE_PRIVATE);
                     sharedPreferences.edit().putString("profileId", mAuth.getCurrentUser().getUid()).apply();
                 }
                 selectedFragment = new ProfileFragment();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
+            } else if (item.getItemId() == R.id.add){
+                startActivity(new Intent(MainActivity.this, PostActivity.class));
             }
 
-
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
             return true;
         });
 
