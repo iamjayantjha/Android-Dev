@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -207,17 +208,23 @@ public class EditProfileActivity extends AppCompatActivity {
             });
         }
     }
-
+// Error, Information, Warning, Debug
     private void saveData(String myUri, ProgressDialog progressDialog) {
+        Log.i("EditProfileSaveData","Save Data Method Called");
         DatabaseReference reference = FirebaseDatabase.getInstance("https://learn-android-7193b-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("Users").child(firebaseUser.getUid());
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Users user = snapshot.getValue(Users.class);
-                assert user != null;
-                user.setImageUrl(myUri);
-                reference.setValue(user);
-                progressDialog.dismiss();
+                if (snapshot.exists()){
+                    Log.i("EditProfileSaveData","Data Retrieved Successfully");
+                    Users user = snapshot.getValue(Users.class);
+                    assert user != null;
+                    user.setImageUrl(myUri);
+                    reference.setValue(user);
+                    progressDialog.dismiss();
+                }else {
+                    Log.w("EditProfileSaveData","Data Not Retrieved");
+                }
             }
 
             @Override
